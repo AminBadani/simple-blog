@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+
+body {
+    font-family: 'JetBrains Mono';
+}
+.container {
+    width: 100%;
+    margin: auto;
+}
+button {
+    width: max-content;
+}
+
+/* 48 rem = 768px (medium size) https://tailwindcss.com/docs/responsive-design */
+@media (width >= 48rem) { 
+    .container {
+        width: 50%;
+        margin: auto
+    }
+}
