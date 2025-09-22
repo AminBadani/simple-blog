@@ -7,8 +7,18 @@ body {
     width: 100%;
     margin: auto;
 }
+.message   {
+        border-left: 5px solid gray;
+        padding-left: 5px;
+        margin-bottom: 1rem;
+}
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
 button {
-    width: max-content;
+    padding: 5px 10px;
 }
 
 /* 48 rem = 768px (medium size) https://tailwindcss.com/docs/responsive-design */
