@@ -6,7 +6,9 @@ export async function GET({ params }) {
     if (data?.length == 0) return json({ message: `User dengan email '${params.email}' tidak ditemukan` }, { status: 404 })
 
     return json({
-        users: data,
+        message: 'User ditemukan',
+        // @ts-ignore
+        user: data[0]
     })
 }
 
