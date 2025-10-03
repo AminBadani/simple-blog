@@ -1,10 +1,14 @@
+import { redirect } from '@sveltejs/kit';
+
 export async function load({ cookies }) {
-    const userCredentials = cookies.get('credentials');
-    return { userCredentials }
+    const userCredentials = JSON.parse(cookies.get('credentials') ?? '{}');
+    if (userCredentials == null) {
+        redirect(302, '/')
+    }
 }
 
-export const actions =  {
-    default: async ({ request, cookies }) => {
+export const actions = {
+    default: async ({ request, cookies, fetch }) => {
         const data = await request.formData()
         if (!data.get('email')) return { message: "Email masih kosong" };
         if (!data.get('password')) return { message: "Password masih kosong" };
@@ -19,8 +23,9 @@ export const actions =  {
         const response = await fetch(`/api/user/${data.get('email')}`, requestOptions);
         const result = await response.json()
 
-        if (response.status == 404) return {message: result.message} 
-        
-        return {message: result.message};
+        if (response.status == 404) return { message: result.message }
+
+        cookies.set('credentials', JSON.stringify(result.user), { path: '/' })
+        return { message: result.message };
     }
 }
