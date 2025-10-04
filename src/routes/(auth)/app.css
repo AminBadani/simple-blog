@@ -3,9 +3,10 @@
     margin: auto;
 }
 .message   {
-        border-left: 5px solid gray;
-        padding-left: 5px;
-        margin-bottom: 1rem;
+    border-left: 5px solid gray;
+    padding: 5px 10px;
+    margin-bottom: 1rem;
+    background-color: rgb(226, 226, 226);
 }
 form {
     display: flex;
