@@ -1,8 +1,9 @@
 import { redirect } from '@sveltejs/kit';
 
 export async function load({ cookies }) {
-    const userCredentials = JSON.parse(cookies.get('credentials') ?? '{}');
-    if (userCredentials == null) {
+    // @ts-ignore
+    const userCredentials = JSON.parse(cookies.get('credentials') ?? null);
+    if (userCredentials != null) {
         redirect(302, '/')
     }
 }
