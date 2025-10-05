@@ -10,18 +10,18 @@ export async function load({ cookies }) {
 
 export const actions = {
     default: async ({ request, cookies, fetch }) => {
-        const data = await request.formData();
-        if (!data.get('email')) return { message: "Email tidak boleh kosong" }
-        if (!data.get('username')) return { message: "Username tidak boleh kosong" }
-        if (!data.get('password')) return { message: "Password tidak boleh kosong" }
-        if (data.get('confirm_password') != data.get('password')) return { message: "Konfirmasi password tidak sama dengan password" }
+        const form = await request.formData();
+        if (!form.get('email')) return { message: "Email tidak boleh kosong" }
+        if (!form.get('username')) return { message: "Username tidak boleh kosong" }
+        if (!form.get('password')) return { message: "Password tidak boleh kosong" }
+        if (form.get('confirm_password') != form.get('password')) return { message: "Konfirmasi password tidak sama dengan password" }
 
         const requestOptions = {
             method: 'POST',
             body: JSON.stringify({
-                email: data.get('email'),
-                username: data.get('username'),
-                password: data.get('password'),
+                email: form.get('email'),
+                username: form.get('username'),
+                password: form.get('password'),
             }),
             headers: {
                 'Content-Type': 'application/json',
@@ -30,10 +30,10 @@ export const actions = {
         }
 
         const response = await fetch('/api/user', requestOptions);
-        const result = await response.json()
+        const data = await response.json()
         
-        if (response.ok) cookies.set('credentials', JSON.stringify(result.user), { path: '/' })
+        if (response.ok) cookies.set('credentials', JSON.stringify(data.user), { path: '/', maxAge: 60 * 60 *24 })
 
-        return { message: result.message };
+        return { message: data.message };
     }
 }

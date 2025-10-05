@@ -10,9 +10,9 @@ export async function load({ cookies }) {
 
 export const actions = {
     default: async ({ request, cookies, fetch }) => {
-        const data = await request.formData()
-        if (!data.get('email')) return { message: "Email masih kosong" };
-        if (!data.get('password')) return { message: "Password masih kosong" };
+        const form = await request.formData()
+        if (!form.get('email')) return { message: "Email masih kosong" };
+        if (!form.get('password')) return { message: "Password masih kosong" };
 
         const requestOptions = {
             method: 'GET',
@@ -21,12 +21,18 @@ export const actions = {
                 'Accept': 'application/json'
             }
         }
-        const response = await fetch(`/api/user/${data.get('email')}`, requestOptions);
-        const result = await response.json()
+        const response = await fetch(`/api/user/${form.get('email')}`, requestOptions);
+        const data = await response.json()
 
-        if (response.status == 404) return { message: result.message }
+        if (response.status == 404) return { message: data.message }
 
-        cookies.set('credentials', JSON.stringify(result.user), { path: '/' })
-        return { message: result.message };
+        /**
+         * 1 menit = 60 detik
+         * 60 menit = 1 jam = 60 detik * 60
+         * 24 jam = 1 hari = 60 menit * 24
+         * 12 hari = 24 jam * 12
+         */
+        cookies.set('credentials', JSON.stringify(data.user), { path: '/', maxAge: 60 * 60 * 24 })
+        return { message: data.message };
     }
 }
