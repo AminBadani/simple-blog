@@ -1,0 +1,6 @@
+@media (width >= 48rem) {
+    .container {
+        width: 50%;
+        margin: 2rem auto;
+    }
+}
